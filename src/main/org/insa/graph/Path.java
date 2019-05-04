@@ -111,14 +111,16 @@ public class Path {
         				}
         				connect = true;
         			}
-        		}
+                }
+                
         		//Cas ou 2 noeuds consecutifs ne sont pas connectes
         		if(!connect) {
         			throw new IllegalArgumentException();
         		} else {
         			arcs.add(min);
         		}
-        	}
+            }
+            
         	chemin = new Path(graph, arcs); 
         	
         } else {
@@ -130,7 +132,6 @@ public class Path {
         		chemin = new Path (graph) ;
         	}
         }
-        
         return chemin;
     }
 
@@ -276,10 +277,12 @@ public class Path {
     public boolean isValid() {
         
     	boolean valid = false;
-    	
+        
+        //On teste si l'arc est vide
     	if(this.arcs.isEmpty()) {
-    		valid = true;
+            valid = true;
     	} else {
+
     		valid = (this.getOrigin() == null);
     		
     		if (valid == false) {
