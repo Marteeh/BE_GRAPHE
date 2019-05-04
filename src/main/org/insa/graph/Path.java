@@ -31,6 +31,7 @@ public class Path {
      *         consecutive nodes in the list are not connected in the graph.
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes) throws IllegalArgumentException {
+    	
     	List<Arc> arcs = new ArrayList<Arc>();
         Path chemin = null;
         boolean connect = false;
@@ -39,9 +40,11 @@ public class Path {
         	for (int i=0; i<nodes.size()-1; i++) {
         		double tempsMAX = Double.MAX_VALUE;
         		Arc min = null;
+        		
         		// Parcours des arcs depuis le premier node (origine)
         		for (Arc arc: nodes.get(i).getSuccessors()) {
-        			//On prend le plus petit chemin de node(i) à node(i+1)
+        			
+        			//On prend le plus petit chemin de node(i) a node(i+1)
         			if (arc.getDestination().equals(nodes.get(i+1))) {
         				if (arc.getMinimumTravelTime()<tempsMAX) {
         					tempsMAX = arc.getMinimumTravelTime();
@@ -50,16 +53,19 @@ public class Path {
         				connect = true;
         			}
         		}
-        		//Cas ou 2 noeuds consécutifs ne sont pas connectés
+        		
+        		//Cas ou 2 noeuds consecutifs ne sont pas connectes
         		if(!connect) {
         			throw new IllegalArgumentException();
         		} else {
         			arcs.add(min);
         		}
         	}
-        	chemin = new Path(graph, arcs);        	
+        	chemin = new Path(graph, arcs);     
+        	
         } else {
-        	// Si on à qu'un seul noeud, on a pas d'arc
+        	
+        	// Si on a qu'un seul noeud, on a pas d'arc
         	if (nodes.size() == 1) {
         		chemin = new Path (graph, nodes.get(0));
         	}
@@ -93,9 +99,11 @@ public class Path {
         	for (int i=0; i<nodes.size()-1; i++) {
         		float tailleMAX = Float.MAX_VALUE;
         		Arc min = null;
+        		
         		// Parcours des arcs depuis le premier node (origine)
         		for (Arc arc: nodes.get(i).getSuccessors()) {
-        			//On prend le plus petit chemin de node(i) à node(i+1)
+        			
+        			//On prend le plus petit chemin de node(i) a node(i+1)
         			if (arc.getDestination().equals(nodes.get(i+1))) {
         				if (arc.getLength()<tailleMAX) {
         					tailleMAX = arc.getLength();
@@ -104,16 +112,17 @@ public class Path {
         				connect = true;
         			}
         		}
-        		//Cas ou 2 noeuds consécutifs ne sont pas connectés
+        		//Cas ou 2 noeuds consecutifs ne sont pas connectes
         		if(!connect) {
         			throw new IllegalArgumentException();
         		} else {
         			arcs.add(min);
         		}
         	}
-        	chemin = new Path(graph, arcs);        	
+        	chemin = new Path(graph, arcs); 
+        	
         } else {
-        	// Si on à qu'un seul noeud, on a pas d'arc
+        	// Si on a qu'un seul noeud, on a pas d'arc
         	if (nodes.size() == 1) {
         		chemin = new Path (graph, nodes.get(0));
         	}
