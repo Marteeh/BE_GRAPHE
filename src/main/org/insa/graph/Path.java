@@ -278,17 +278,21 @@ public class Path {
         
     	boolean valid = false;
         
-        //On teste si l'arc est vide
+        //On teste si le chemin est vide
     	if(this.arcs.isEmpty()) {
             valid = true;
+        //Le chemin n'est pas vide
     	} else {
 
+            //Il est possible que le chemin n'ait pas d'origine (?)
     		valid = (this.getOrigin() == null);
-    		
     		if (valid == false) {
+                //On part de l'origine et on teste chaque branche (arc)
     			boolean bonchemin = true;
     			Node prev = this.getOrigin();
-    			
+                
+                //Pour 2 arcs consécutifs, la destination du premier est
+                //l'origine du second.
     			for (Arc arc: this.arcs) {
     				if(prev.equals(arc.getOrigin())) {
     					prev = arc.getDestination();
