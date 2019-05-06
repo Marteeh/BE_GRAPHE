@@ -143,25 +143,32 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     }
 
     @Override
+    //On souhaite retirer l'element x
     public void remove(E x) throws ElementNotFoundException {
-       
+        
+        //Si l'arbre est vide, pas trouvé
     	if (this.currentSize == 0) {
         	throw new ElementNotFoundException(x);
         }
-    	
+        
+        //On cherche x dans l'arbre
         else {
+            //Cherche l'index de x 
         	int index = this.array.indexOf(x);
         
+            //x n'y est pas
         	if (index==-1 || index > this.currentSize-1) {
         		throw new ElementNotFoundException(x);
         	}
-        
+            
+            //x est le premier element de l'arbre
         	if (index==0) {
         		this.deleteMin();
         	}
-        	
+            
+            //x est qq part dans l'arbre
         	else {
-        	
+                //x est le dernier element de l'abre
         		if (index==this.currentSize-1) {
         			this.array.remove(currentSize-1);
         			this.currentSize-=1;
@@ -238,5 +245,4 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         System.out.println("--------  End of heap  --------");
         System.out.println();
     }
-
 }
