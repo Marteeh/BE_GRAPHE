@@ -1,5 +1,6 @@
 package org.insa.algo.shortestpath;
 
+import org.insa.algo.AbstractInputData;
 import org.insa.algo.AbstractInputData.Mode;
 import org.insa.algo.AbstractSolution;
 import org.insa.graph.Arc;
@@ -9,7 +10,21 @@ public class ShortestPathSolution extends AbstractSolution {
 
     // Optimal solution.
     private Path path;
+    
+    private int nombreSommetVisite;
 
+    public ShortestPathSolution(AbstractInputData data, Path path, int nombreSommetVisite) {
+        super(data);
+        this.path = path;
+        this.nombreSommetVisite = nombreSommetVisite;
+    }
+
+    public ShortestPathSolution(AbstractInputData data, Status status, Path path, int nombreSommetVisite) {
+        super(data, status);
+        this.path = path;
+        this.nombreSommetVisite = nombreSommetVisite;
+    }
+    
     /**
      * {@inheritDoc}
      */
