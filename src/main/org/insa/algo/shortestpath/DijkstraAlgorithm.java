@@ -113,7 +113,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             status=AbstractSolution.Status.INFEASIBLE;
         } else {
         	
-            // On reconstruit le chemin
+            // Reconstruction du chemin
             while (labelNodes.get(noeud).getPere() != null) {
                 listNoeud.addFirst(noeud);
                 noeud = labelNodes.get(noeud).getPere();
@@ -128,5 +128,4 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         return solution;
     }
-
 }
