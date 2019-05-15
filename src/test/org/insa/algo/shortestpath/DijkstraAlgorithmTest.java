@@ -37,8 +37,8 @@ public class DijkstraAlgorithmTest {
 
     private static double delta;
 
-    private static ArcInspector lenghtallAllowed;
-    private static ArcInspector lenghtCarRoadOnly;
+    private static ArcInspector lengthAllAllowed;
+    private static ArcInspector lengthCarRoadOnly;
     private static ArcInspector timeAllAllowed;
     private static ArcInspector timeCarRoadOnly;
     private static ArcInspector timePedestrianRoad;
@@ -101,8 +101,8 @@ public class DijkstraAlgorithmTest {
         reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
         toulouse = reader.read();
 
-        lenghtallAllowed = ArcInspectorFactory.getAllFilters().get(0);
-        lenghtCarRoadOnly = ArcInspectorFactory.getAllFilters().get(1);
+        lengthAllAllowed = ArcInspectorFactory.getAllFilters().get(0);
+        lengthCarRoadOnly = ArcInspectorFactory.getAllFilters().get(1);
         timeAllAllowed = ArcInspectorFactory.getAllFilters().get(2);
         timeCarRoadOnly = ArcInspectorFactory.getAllFilters().get(3);
         timePedestrianRoad = ArcInspectorFactory.getAllFilters().get(4);
@@ -352,12 +352,12 @@ public class DijkstraAlgorithmTest {
     
         @Test
         public void CarreDistanceAllAllowed(){
-            MapCheminOkDistance(carre,lenghtallAllowed);
+            MapCheminOkDistance(carre,lengthAllAllowed);
         }
     
         @Test
         public void CarreDistanceCarOnly(){
-            MapCheminOkDistance(carre,lenghtCarRoadOnly);
+            MapCheminOkDistance(carre,lengthCarRoadOnly);
         }
     
         @Test
@@ -400,12 +400,12 @@ public class DijkstraAlgorithmTest {
     
         @Test
         public void InsaDistanceAllAllowed(){
-            MapCheminOkDistance(toulouse, lenghtallAllowed);
+            MapCheminOkDistance(toulouse, lengthAllAllowed);
         }
     
         @Test
         public void InsaDistanceCarOnly(){
-            MapCheminOkTemps(toulouse, lenghtCarRoadOnly);
+            MapCheminOkTemps(toulouse, lengthCarRoadOnly);
         }
     
         @Test
@@ -434,4 +434,3 @@ public class DijkstraAlgorithmTest {
             testValiditeTemps(toulouse);
         }
 }
-
