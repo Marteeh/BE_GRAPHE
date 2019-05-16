@@ -16,7 +16,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assume.assumeNotNull;
 
 public class DijkstraAlgorithmTest {
 
@@ -53,6 +52,7 @@ public class DijkstraAlgorithmTest {
     }
 
     //fonction d'initialisation des tests
+    @BeforeClass
     public static void initAll() throws Exception{
         
         GraphReader reader;
@@ -179,7 +179,7 @@ public class DijkstraAlgorithmTest {
 
         Node origine = g.get(0);
         // On recherche un noeud sans successeur
-        for (Node node:g){
+        for (Node node : g.getNodes()){
             if (!node.hasSuccessors()) {
                 origine =  node;
             }
@@ -237,17 +237,17 @@ public class DijkstraAlgorithmTest {
 
     	// Si le chemin est un pcc alors n'importe quel sous chemin est un plus court chemin
     	Path path =  soluce.getPath();
-    	List<Arc> listarcs =  soluce.getPath().getArcs();
+    	List<Arc> lArcs =  soluce.getPath().getArcs();
     	List<Arc> CheminInterne = new LinkedList<Arc>();
 
     	Node origine =  path.getOrigin();
     	Node destination =  path.getDestination();
 
-    	int size = listarcs.size();
+    	int size = lArcs.size();
 
     	// On prend une destination au milieu du path
     	int i = 0;
-        destination = chooseADest(listarcs, CheminInterne, destination, size, i);
+        destination = chooseADest(lArcs, CheminInterne, destination, size, i);
 
         // On trouve un pcc entre deux points du path
         data = new ShortestPathData(g, origine, destination, ArcInspectorFactory.getAllFilters().get(0));
@@ -259,11 +259,9 @@ public class DijkstraAlgorithmTest {
         if (solutionDijkstra.isFeasible()){
 
         	double lengthMeters =0;
-        	double minimumTravelTime = 0;
 
         	for (Arc arcs : CheminInterne) {
         		lengthMeters += arcs.getLength();
-        		minimumTravelTime += arcs.getMinimumTravelTime();
         	}
             // la comparaison se fait en distance
             assertEquals(solutionDijkstra.getPath().getLength(), lengthMeters, delta);
@@ -273,7 +271,7 @@ public class DijkstraAlgorithmTest {
     
     // Permet de choisir un node au milieu du Path donné en argument
     public Node chooseADest(List<Arc> lArcs, List<Arc> cheminInterne, Node destination, int size, int i) {
-        for (Arc arc : listarcs) {
+        for (Arc arc : lArcs) {
             if (i<size/2) {
             destination = arc.getDestination();
             cheminInterne.add(arc);
@@ -309,16 +307,16 @@ public class DijkstraAlgorithmTest {
         // Si le chemin = plus court chemin (pcc)
         // n'importe quel sous chemin est un plus court chemin
     	Path path = soluce.getPath();
-    	List<Arc> listarcs = soluce.getPath().getArcs();
+    	List<Arc> lArcs = soluce.getPath().getArcs();
     	List<Arc> CheminInterne=new LinkedList<Arc>();
     	Node origine = path.getOrigin();
     	Node destination = path.getDestination();
 
-    	int size = listarcs.size();
+    	int size = lArcs.size();
 
     	// Destination au milieu du path
     	int i = 0;
-        destination = chooseADest(listarcs, CheminInterne, destination, size, i);
+        destination = chooseADest(lArcs, CheminInterne, destination, size, i);
         
         // On trouve un pcc entre deux points du path
         data = new ShortestPathData(map, origine, destination, ArcInspectorFactory.getAllFilters().get(0));

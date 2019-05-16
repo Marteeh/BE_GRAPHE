@@ -12,6 +12,10 @@ public class ShortestPathSolution extends AbstractSolution {
     private Path path;
     
     private int nombreSommetVisite;
+    
+    int getnombreSommetVisite() {
+    	return this.nombreSommetVisite;
+    }
 
     public ShortestPathSolution(AbstractInputData data, Path path, int nombreSommetVisite) {
         super(data);
