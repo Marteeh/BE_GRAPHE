@@ -53,7 +53,7 @@ public class AStarAlgorithmTest {
         reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
         toulouse = reader.read();
 
-        lenghtallAllowed = ArcInspectorFactory.getAllFilters().get(0);
+        lenghtallAllowed =  ArcInspectorFactory.getAllFilters().get(0);
         lenghtCarRoadOnly = ArcInspectorFactory.getAllFilters().get(1);
         timeAllAllowed = ArcInspectorFactory.getAllFilters().get(2);
         timeCarRoadOnly = ArcInspectorFactory.getAllFilters().get(3);
@@ -65,7 +65,7 @@ public class AStarAlgorithmTest {
         Node origine = g.get(0);
         Node destination = g.get(g.size() - 1);
 
-        data = new ShortestPathData(g, origine, destination, ArcInspectorFactory.getAllFilters().get(0));
+        data = new ShortestPathData(g, origine, destination, lenghtallAllowed);
         AStarAlgorithm = new AStarAlgorithm(data);
         bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
         solutionBellmand = bellmanFordAlgorithm.doRun();
@@ -75,7 +75,7 @@ public class AStarAlgorithmTest {
 
         if (solutionBellmand.isFeasible()){
             assertEquals(solutionBellmand.getPath().getMinimumTravelTime(), solutionAStar.getPath().getMinimumTravelTime(), delta);
-            ValiditeTemps (solutionAStar, g);
+            ValiditeTemps(solutionAStar, g);
         }
     }
 
@@ -84,7 +84,7 @@ public class AStarAlgorithmTest {
         Node origine = g.get(0);
         Node destination = g.get(0);
         
-        data = new ShortestPathData(g, origine, destination, ArcInspectorFactory.getAllFilters().get(0));
+        data = new ShortestPathData(g, origine, destination,  lenghtallAllowed);
         AStarAlgorithm  = new AStarAlgorithm(data);
         bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
         solutionBellmand = bellmanFordAlgorithm.doRun();
@@ -108,7 +108,7 @@ public class AStarAlgorithmTest {
             }
         }
 
-        data = new ShortestPathData(g, origine, destination, ArcInspectorFactory.getAllFilters().get(0));
+        data = new ShortestPathData(g, origine, destination,  lenghtallAllowed);
         AStarAlgorithm  = new AStarAlgorithm(data);
         bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
         solutionBellmand = bellmanFordAlgorithm.doRun();
@@ -117,12 +117,12 @@ public class AStarAlgorithmTest {
         assertEquals(solutionBellmand.isFeasible(), solutionAStar.isFeasible());
     }
 
-    public void MapCheminOkDistance(Graph g,  ArcInspector filter){
+    public void MapCheminOkDistance(Graph g,  ArcInspector filtre){
 
         Node origine = g.get(0);
         Node destination = g.get(g.size()-1);
 
-        data = new ShortestPathData(g, origine, destination, filter);
+        data = new ShortestPathData(g, origine, destination, filtre);
         AStarAlgorithm  = new AStarAlgorithm(data);
         bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
         solutionBellmand = bellmanFordAlgorithm.doRun();
@@ -135,12 +135,12 @@ public class AStarAlgorithmTest {
         }
     }
 
-    public void MapCheminOkTemps(Graph g, ArcInspector filter){
+    public void MapCheminOkTemps(Graph g, ArcInspector filtre){
 
         Node origine = g.get(0);
         Node destination = g.get(g.size()-1);
 
-        data = new ShortestPathData(g, origine, destination, filter);
+        data = new ShortestPathData(g, origine, destination, filtre);
         AStarAlgorithm  = new AStarAlgorithm(data);
         bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
         solutionBellmand = bellmanFordAlgorithm.doRun();
@@ -158,35 +158,36 @@ public class AStarAlgorithmTest {
 
         // Si le chemin est un pcc alors n'importe quel sous chemin est un plus court chemin
         Path path  =  sol.getPath();
-        List<Arc> listarcs  =  sol.getPath().getArcs();
+        List<Arc> listarcs = sol.getPath().getArcs();
         List<Arc> CheminInterne = new LinkedList<Arc>();
 
-        Node origine  =  path.getOrigin();
-        Node destination  =  path.getDestination();
+        Node origine = path.getOrigin();
+        Node destination = path.getDestination();
 
-        int size  =  listarcs.size();
+        int size = listarcs.size();
 
         // On prend une destination au milieu du path
-        int i  =  0;
-        destination = chooseADest(listarcs,  CheminInterne,  destination,  size,  i);
+        destination = chooseADest(listarcs, CheminInterne, destination, size);
 
-        data = new ShortestPathData(g, origine, destination, ArcInspectorFactory.getAllFilters().get(0));
-        AStarAlgorithm  = new AStarAlgorithm(data);
+        data = new ShortestPathData(g, origine, destination,  lenghtallAllowed);
+        AStarAlgorithm = new AStarAlgorithm(data);
         solutionAStar = AStarAlgorithm.doRun();
 
         if (solutionAStar.isFeasible()){
 
-            double lengthMeters  = 0;
+            double lengthMeters = 0;
 
             for (Arc arcs : CheminInterne) {
-                lengthMeters +=  arcs.getLength();
+                lengthMeters += arcs.getLength();
             }
 
             assertEquals(solutionAStar.getPath().getLength(), lengthMeters, delta);
         }
     }
 
-    public Node chooseADest(List<Arc> listarcs, List<Arc> cheminInterne, Node destination, int size, int i) {
+    public Node chooseADest(List<Arc> listarcs, List<Arc> cheminInterne, Node destination, int size) {
+
+        int i = 0;
 
         for (Arc arc : listarcs) {
             if (i < size/2) {
@@ -203,7 +204,7 @@ public class AStarAlgorithmTest {
         Node origine =  carre.get(0);
         Node destination =  carre.get(carre.size()-1);
 
-        data = new ShortestPathData(carre, origine, destination, ArcInspectorFactory.getAllFilters().get(0));
+        data = new ShortestPathData(carre, origine, destination,  lenghtallAllowed);
         AStarAlgorithm  = new AStarAlgorithm(data);
         bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
         solutionBellmand = bellmanFordAlgorithm.doRun();
@@ -216,21 +217,23 @@ public class AStarAlgorithmTest {
             ValiditeDistance (solutionAStar, carre);
         }
     }
-    public void ValiditeTemps (ShortestPathSolution sol, Graph g) {
-        // Si le chemin est un pcc alors n'importe quel sous chemin est un plus court chemin
-        Path path  =  sol.getPath();
-        List<Arc> listarcs  =  sol.getPath().getArcs();
-        List<Arc> CheminInterne = new LinkedList<Arc>();
-        Node origine  =  path.getOrigin();
-        Node destination  =  path.getDestination();
 
-        int size  =  listarcs.size();
+    public void ValiditeTemps(ShortestPathSolution sol, Graph g) {
+
+        // Si le chemin est un pcc alors n'importe quel sous chemin est un plus court chemin
+        Path path = sol.getPath();
+        List<Arc> listarcs = sol.getPath().getArcs();
+        List<Arc> CheminInterne = new LinkedList<Arc>();
+
+        Node origine = path.getOrigin();
+        Node destination = path.getDestination();
+
+        int size = listarcs.size();
 
         // On prend une destination au milieu du path
-        int i  =  0;
-        destination  =  chooseADest(listarcs,  CheminInterne,  destination,  size,  i);
+        destination = chooseADest(listarcs, CheminInterne, destination, size);
 
-        data = new ShortestPathData(g, origine, destination, ArcInspectorFactory.getAllFilters().get(0));
+        data = new ShortestPathData(g, origine, destination, lenghtallAllowed);
         AStarAlgorithm  = new AStarAlgorithm(data);
         solutionAStar = AStarAlgorithm.doRun();
 
@@ -239,13 +242,11 @@ public class AStarAlgorithmTest {
             double minimumTravelTime  =  0;
 
             for (Arc arcs : CheminInterne) {
-                minimumTravelTime + =  arcs.getMinimumTravelTime();
+                minimumTravelTime +=  arcs.getMinimumTravelTime();
             }
 
             assertEquals(solutionAStar.getPath().getMinimumTravelTime(), minimumTravelTime, delta);
         }
-
-
     }
 
     /** Test map carré */
