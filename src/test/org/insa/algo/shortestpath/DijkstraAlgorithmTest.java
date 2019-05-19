@@ -112,15 +112,17 @@ public class DijkstraAlgorithmTest {
     @Test
     public void ShortestPathTestGrapheTest(){
 
-        for (int j = 0;j<noeuds.length;j++) {
+        for (int j = 0; j < noeuds.length; j++) {
             for (int i = 0; i < noeuds.length; i++) {
 
                 if (i != j) {
+
                     data = new ShortestPathData(graph, noeuds[j], noeuds[i], ArcInspectorFactory.getAllFilters().get(0));
                     dijkstraAlgorithm = new DijkstraAlgorithm(data);
                     bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
                     solutionBellmand = bellmanFordAlgorithm.doRun();
                     solutionDijkstra = dijkstraAlgorithm.doRun();
+
                     assertEquals(solutionBellmand.isFeasible(),solutionDijkstra.isFeasible());
 
                     if (solutionBellmand.isFeasible()) {
