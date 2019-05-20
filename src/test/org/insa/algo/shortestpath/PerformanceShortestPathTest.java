@@ -49,8 +49,8 @@ public class PerformanceShortestPathTest {
 
         rand = new Random();
         writer = new PrintWriter("/home/toutant/Bureau/" + carte.getMapName() + borneInf + "-" + borneSup + ".csv", "UTF-8");
-        writer.println("algo" + separateur + "originId" + separateur + "destId" + separateur + "distance_vol(m)" 
-                              + separateur + "distance_Algo(m)" + separateur + "nombre_noeud" 
+        writer.println("Algo" + separateur + "ID origine" + separateur + "ID destination" + separateur + "distance_vol(map)" 
+                              + separateur + "distance_Algo(map)" + separateur + "Nombre noeud" 
                               + separateur + "temps(ms)" + separateur + "nombreSommetVisite" );
     }
 
@@ -61,13 +61,13 @@ public class PerformanceShortestPathTest {
         StringBuilder ecriture = new StringBuilder();
         double distance_vol = Point.distance(origine.getPoint(),dest.getPoint());
 
-        //pour mesure le temps d'execution
+        //pour mesure du temps d'execution
         long debut;
         long end;
 
         ecriture.append("Dijkstra" + separateur + origine.getId() + separateur + dest.getId() + separateur + distance_vol + separateur);
 
-        ShortestPathData data = new ShortestPathData(carte,origine,dest,ArcInspectorFactory.getAllFilters().get(0));
+        ShortestPathData data = new ShortestPathData(carte, origine, dest, ArcInspectorFactory.getAllFilters().get(0));
         ShortestPathAlgorithm dijkstraAlgo = new DijkstraAlgorithm(data);
 
         debut = System.nanoTime();
@@ -81,7 +81,7 @@ public class PerformanceShortestPathTest {
             System.out.println(time);
             int size = solution.getPath().size()+1;
 
-            ecriture.append( solution.getPath().getLength() + separateur + size + separateur + time + separateur + solution.getNombreSommetVisite());
+            ecriture.append(solution.getPath().getLength() + separateur + size + separateur + time + separateur + solution.getnombreSommetVisite());
             writer.println(ecriture.toString().replaceAll("\\.",","));
             System.out.println(ecriture.toString().replaceAll("\\.",","));
 
@@ -103,23 +103,23 @@ public class PerformanceShortestPathTest {
 
         ecriture.append("AStar" + separateur + origine.getId() + separateur + dest.getId() + separateur + distance_vol + separateur);
 
-        ShortestPathData data = new ShortestPathData(carte,origine,dest,ArcInspectorFactory.getAllFilters().get(0));
+        ShortestPathData data = new ShortestPathData(carte, origine, dest, ArcInspectorFactory.getAllFilters().get(0));
         ShortestPathAlgorithm AStarAlgo = new AStarAlgorithm(data);
 
         debut = System.nanoTime();
         ShortestPathSolution solution=AStarAlgo.doRun();
         end = System.nanoTime();
 
-        double time=((double)(end-debut)/1000000.0);
+        double time = ((double)(end - debut) / 1000000.0);
 
-        if ((solution.isFeasible())&&(solution.getPath().getLength()<(float) borneSup*1000.0) && (solution.getPath().getLength() > (float) borneInf*1000.0)){
+        if ((solution.isFeasible()) && (solution.getPath().getLength() < (float)borneSup  *1000.0) && (solution.getPath().getLength() > (float)borneInf * 1000.0)){
 
             System.out.println(time);
             int size = solution.getPath().size()+1;
 
-            ecriture.append(solution.getPath().getLength() + separateur + size + separateur + time + separateur + solution.getNombreSommetVisite());
-            writer.println(ecriture.toString().replaceAll("\\.",","));
-            System.out.println(ecriture.toString().replaceAll("\\.",","));
+            ecriture.append(solution.getPath().getLength() + separateur + size + separateur + time + separateur + solution.getnombreSommetVisite());
+            writer.println(ecriture.toString().replaceAll("\\.", ","));
+            System.out.println(ecriture.toString().replaceAll("\\.", ","));
 
             retour=true;
         }
@@ -132,8 +132,8 @@ public class PerformanceShortestPathTest {
         int i=0;
 
         while ( i < nombreTest ){
-            System.out.println( "Chemin trouvé : " + (i+1) );
-            System.out.println( "Avancement :" + (((double)i )/(((double) nombreTest)*100.0))+"%");
+            System.out.println("Chemin trouvé : " + (i+1) );
+            System.out.println("Avancement :" + (((double)i) / (((double)nombreTest) * 100.0)) + "%");
 
             //origine et destination pris au hasard sur la carte
             origine = carte.get(rand.nextInt(carte.size()-1));

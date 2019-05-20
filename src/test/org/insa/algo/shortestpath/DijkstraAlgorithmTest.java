@@ -19,8 +19,8 @@ import static org.junit.Assert.assertEquals;
 
 public class DijkstraAlgorithmTest {
 
-    private static Graph carre;
-    private static Graph toulouse;
+    private static Graph fractoul;
+    private static Graph doBrazil;
     //Le graph
     private static Graph graph;
 
@@ -91,15 +91,15 @@ public class DijkstraAlgorithmTest {
         // erreur autorisée
         delta = 0.0005d;
 
-        //Scenario map carre
-        String mapName = "[chemin map carré]";
+        //Scenario map fractal spirale
+        String mapName = "/home/toutant/Bureau/Cours/3A/S2/Be-graphe";
         reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
-        carre = reader.read();
+        fractoul = reader.read();
         
-        //Scenario map toulouse
-        mapName = "[chemin map toulouse]";
+        //Scenario map bresil
+        mapName = "[chemin map doBrazil]";
         reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
-        toulouse = reader.read();
+        doBrazil = reader.read();
 
         lengthAllAllowed = ArcInspectorFactory.getAllFilters().get(0);
         lengthCarRoadOnly = ArcInspectorFactory.getAllFilters().get(1);
@@ -120,6 +120,7 @@ public class DijkstraAlgorithmTest {
                     data = new ShortestPathData(graph, noeuds[j], noeuds[i], ArcInspectorFactory.getAllFilters().get(0));
                     dijkstraAlgorithm = new DijkstraAlgorithm(data);
                     bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
+
                     solutionBellmand = bellmanFordAlgorithm.doRun();
                     solutionDijkstra = dijkstraAlgorithm.doRun();
 
@@ -147,6 +148,7 @@ public class DijkstraAlgorithmTest {
         data = new ShortestPathData(g, origine, destination, ArcInspectorFactory.getAllFilters().get(0));
         dijkstraAlgorithm = new DijkstraAlgorithm(data);
         bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
+
         solutionBellmand = bellmanFordAlgorithm.doRun();
         solutionDijkstra = dijkstraAlgorithm.doRun();
 
@@ -264,10 +266,10 @@ public class DijkstraAlgorithmTest {
 
         	for (Arc arcs : CheminInterne) {
         		lengthMeters += arcs.getLength();
-        	}
+            }
+            
             // la comparaison se fait en distance
             assertEquals(solutionDijkstra.getPath().getLength(), lengthMeters, delta);
-           
         }
     }
     
@@ -283,12 +285,12 @@ public class DijkstraAlgorithmTest {
         return destination;
     }
 
-    public void testValiditeDistance(Graph carre) {
+    public void testValiditeDistance(Graph g) {
 
-        Node origine = carre.get(0);
-        Node destination = carre.get(carre.size() - 1);
+        Node origine = g.get(0);
+        Node destination = g.get(g.size() - 1);
         
-        data = new ShortestPathData(carre, origine, destination, ArcInspectorFactory.getAllFilters().get(0));
+        data = new ShortestPathData(g, origine, destination, ArcInspectorFactory.getAllFilters().get(0));
         dijkstraAlgorithm = new DijkstraAlgorithm(data);
         bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
         solutionBellmand = bellmanFordAlgorithm.doRun();
@@ -299,7 +301,7 @@ public class DijkstraAlgorithmTest {
         if (solutionBellmand.isFeasible()){
             assertEquals(solutionBellmand.getPath().getLength(), solutionDijkstra.getPath().getLength(), delta);
             // Lancement du test de plus court chemin
-            ValiditeDistance (solutionDijkstra, carre);
+            ValiditeDistance (solutionDijkstra, g);
         }
     }
     
@@ -342,46 +344,46 @@ public class DijkstraAlgorithmTest {
         // Tests map carré 
         @Test
         public void MapCarreCheminNullDistance(){
-            MapCheminNullDistance(carre);
+            MapCheminNullDistance(fractoul);
         }
     
         @Test
         public void CarreNoSuccessorsDistance(){
-            MapCheminOriginNoSuccessorsDistance(carre);
+            MapCheminOriginNoSuccessorsDistance(fractoul);
         }
     
         @Test
         public void CarreDistanceAllAllowed(){
-            MapCheminOkDistance(carre,lengthAllAllowed);
+            MapCheminOkDistance(fractoul,lengthAllAllowed);
         }
     
         @Test
         public void CarreDistanceCarOnly(){
-            MapCheminOkDistance(carre,lengthCarRoadOnly);
+            MapCheminOkDistance(fractoul,lengthCarRoadOnly);
         }
     
         @Test
         public void CarreTempsAllAllowed(){
-            MapCheminOkTemps(carre,timeAllAllowed);
+            MapCheminOkTemps(fractoul,timeAllAllowed);
         }
     
         @Test
         public void carreTempsCarOnly(){
-            MapCheminOkTemps(carre,timeCarRoadOnly);
+            MapCheminOkTemps(fractoul,timeCarRoadOnly);
         }
     
         @Test
         public void CarreTempsPedestrian(){
-            MapCheminOkTemps(carre,timePedestrianRoad);
+            MapCheminOkTemps(fractoul,timePedestrianRoad);
         }
     
         @Test
         public void CarreTestValiditeTemps() {
-            testValiditeTemps(carre);
+            testValiditeTemps(fractoul);
         }
         @Test
         public void CarreTestValiditeDistance() {
-            testValiditeDistance(carre);
+            testValiditeDistance(fractoul);
         }
 
         // Fin tests map carré 
@@ -389,48 +391,48 @@ public class DijkstraAlgorithmTest {
         
         // Tests map insa
         @Test
-        public void InsaNoSuccessorsDistance(){
-            MapCheminOriginNoSuccessorsDistance(toulouse);
+        public void brazilNoSuccessorsDistance(){
+            MapCheminOriginNoSuccessorsDistance(doBrazil);
         }
     
         @Test
-        public void MapInsaCheminNullDistance(){
-            MapCheminNullDistance(toulouse);
+        public void MapBrazilCheminNullDistance(){
+            MapCheminNullDistance(doBrazil);
         }
     
         @Test
-        public void InsaDistanceAllAllowed(){
-            MapCheminOkDistance(toulouse, lengthAllAllowed);
+        public void brazilDistanceAllAllowed(){
+            MapCheminOkDistance(doBrazil, lengthAllAllowed);
         }
     
         @Test
-        public void InsaDistanceCarOnly(){
-            MapCheminOkTemps(toulouse, lengthCarRoadOnly);
+        public void brazilDistanceCarOnly(){
+            MapCheminOkTemps(doBrazil, lengthCarRoadOnly);
         }
     
         @Test
-        public void InsaTempsAllAllowed(){
-            MapCheminOkTemps(toulouse, timeAllAllowed);
+        public void brazilTempsAllAllowed(){
+            MapCheminOkTemps(doBrazil, timeAllAllowed);
         }
     
         @Test
-        public void InsaTempsCarOnly(){
-            MapCheminOkTemps(toulouse, timeCarRoadOnly);
+        public void brazilTempsCarOnly(){
+            MapCheminOkTemps(doBrazil, timeCarRoadOnly);
         }
     
         //TODO: debug cette fonction
         @Test
-        public void InsaTempsPedestrian(){
-            MapCheminOkTemps(toulouse, timePedestrianRoad);
+        public void brazilTempsPedestrian(){
+            MapCheminOkTemps(doBrazil, timePedestrianRoad);
         }
     
         @Test
-        public void InsaTestValiditeDistance() {
-            testValiditeDistance(toulouse);
+        public void brazilTestValiditeDistance() {
+            testValiditeDistance(doBrazil);
         }
     
         @Test
-        public void InsaTestValiditeTemps() {
-            testValiditeTemps(toulouse);
+        public void brazilTestValiditeTemps() {
+            testValiditeTemps(doBrazil);
         }
 }
