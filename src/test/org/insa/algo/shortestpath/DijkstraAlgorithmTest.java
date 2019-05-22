@@ -73,7 +73,7 @@ public class DijkstraAlgorithmTest {
         }
 
         //Exemple simple
-        //Def du graph 
+        //Definition d'un graph 
         Node.linkNodes(noeuds[0], noeuds[1], 7, speed10, null);
         Node.linkNodes(noeuds[0], noeuds[2], 8, speed10, null);
         Node.linkNodes(noeuds[1], noeuds[3], 4, speed10, null);
@@ -139,28 +139,6 @@ public class DijkstraAlgorithmTest {
     }
 
     //Différentes fonctions de test
-
-    public void testValiditeTemps(Graph g) {
-
-        Node origine = g.get(0);
-        Node destination = g.get(g.size()-1);
-
-        data = new ShortestPathData(g, origine, destination, ArcInspectorFactory.getAllFilters().get(0));
-        dijkstraAlgorithm = new DijkstraAlgorithm(data);
-        bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
-
-        solutionBellmand = bellmanFordAlgorithm.doRun();
-        solutionDijkstra = dijkstraAlgorithm.doRun();
-
-        assertEquals(solutionBellmand.isFeasible(), solutionDijkstra.isFeasible());
-
-        if (solutionBellmand.isFeasible()){
-            assertEquals(solutionBellmand.getPath().getMinimumTravelTime(), solutionDijkstra.getPath().getMinimumTravelTime(), delta);
-            // Lancement du test de plus court chemin en temps
-            ValiditeTemps (solutionDijkstra, g);
-        }
-    }
-
     public void MapCheminNullDistance(Graph g) {
 
         Node origine = g.get(0);
@@ -169,8 +147,10 @@ public class DijkstraAlgorithmTest {
         data = new ShortestPathData(g, origine, destination, ArcInspectorFactory.getAllFilters().get(0));
         dijkstraAlgorithm = new DijkstraAlgorithm(data);
         bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
+
         solutionBellmand = bellmanFordAlgorithm.doRun();
         solutionDijkstra = dijkstraAlgorithm.doRun();
+
         assertEquals(solutionBellmand.isFeasible(), solutionDijkstra.isFeasible());
 
         if (solutionBellmand.isFeasible()){
@@ -195,8 +175,10 @@ public class DijkstraAlgorithmTest {
         data = new ShortestPathData(g, origine, destination, ArcInspectorFactory.getAllFilters().get(0));
         dijkstraAlgorithm = new DijkstraAlgorithm(data);
         bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
+
         solutionBellmand = bellmanFordAlgorithm.doRun();
         solutionDijkstra = dijkstraAlgorithm.doRun();
+
         assertEquals(solutionBellmand.isFeasible(), solutionDijkstra.isFeasible());
     }
 
@@ -208,6 +190,7 @@ public class DijkstraAlgorithmTest {
         data = new ShortestPathData(g, origine, destination, filtre);
         dijkstraAlgorithm = new DijkstraAlgorithm(data);
         bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
+
         solutionBellmand = bellmanFordAlgorithm.doRun();
         solutionDijkstra = dijkstraAlgorithm.doRun();
         
@@ -226,6 +209,7 @@ public class DijkstraAlgorithmTest {
         data = new ShortestPathData(g, origine, destination, filtre);
         dijkstraAlgorithm = new DijkstraAlgorithm(data);
         bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
+
         solutionBellmand = bellmanFordAlgorithm.doRun();
         solutionDijkstra = dijkstraAlgorithm.doRun();
         
@@ -234,6 +218,19 @@ public class DijkstraAlgorithmTest {
         if (solutionBellmand.isFeasible()){
             assertEquals(solutionBellmand.getPath().getMinimumTravelTime(), solutionDijkstra.getPath().getMinimumTravelTime(), delta);
         }
+    }
+    
+    // Permet de choisir un node au milieu du Path donné en argument
+    public Node chooseADest(List<Arc> lArcs, List<Arc> cheminInterne, Node destination, int size, int i) {
+
+        for (Arc arc : lArcs) {
+            if (i<size/2) {
+            destination = arc.getDestination();
+            cheminInterne.add(arc);
+            i++;
+            }
+        }
+        return destination;
     }
 
     // Vérifie si le plus court chemin entre deux points du ShortestPathSolution fourni est bien le plus court chemin en distance
@@ -273,18 +270,6 @@ public class DijkstraAlgorithmTest {
         }
     }
     
-    // Permet de choisir un node au milieu du Path donné en argument
-    public Node chooseADest(List<Arc> lArcs, List<Arc> cheminInterne, Node destination, int size, int i) {
-        for (Arc arc : lArcs) {
-            if (i<size/2) {
-            destination = arc.getDestination();
-            cheminInterne.add(arc);
-            i++;
-            }
-        }
-        return destination;
-    }
-
     public void testValiditeDistance(Graph g) {
 
         Node origine = g.get(0);
@@ -293,6 +278,7 @@ public class DijkstraAlgorithmTest {
         data = new ShortestPathData(g, origine, destination, ArcInspectorFactory.getAllFilters().get(0));
         dijkstraAlgorithm = new DijkstraAlgorithm(data);
         bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
+
         solutionBellmand = bellmanFordAlgorithm.doRun();
         solutionDijkstra = dijkstraAlgorithm.doRun();
         
@@ -341,6 +327,26 @@ public class DijkstraAlgorithmTest {
         }
     }
 
+    public void testValiditeTemps(Graph g) {
+
+        Node origine = g.get(0);
+        Node destination = g.get(g.size()-1);
+
+        data = new ShortestPathData(g, origine, destination, ArcInspectorFactory.getAllFilters().get(0));
+        dijkstraAlgorithm = new DijkstraAlgorithm(data);
+        bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
+
+        solutionBellmand = bellmanFordAlgorithm.doRun();
+        solutionDijkstra = dijkstraAlgorithm.doRun();
+
+        assertEquals(solutionBellmand.isFeasible(), solutionDijkstra.isFeasible());
+
+        if (solutionBellmand.isFeasible()){
+            assertEquals(solutionBellmand.getPath().getMinimumTravelTime(), solutionDijkstra.getPath().getMinimumTravelTime(), delta);
+            // Lancement du test de plus court chemin en temps
+            ValiditeTemps (solutionDijkstra, g);
+        }
+    }
         // Tests map carré 
         @Test
         public void MapCarreCheminNullDistance(){

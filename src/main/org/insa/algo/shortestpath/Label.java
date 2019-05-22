@@ -12,10 +12,10 @@ public class Label implements Comparable<Label> {
 	private boolean marque;
 	
 	public Label (double cout,Node actu, Node predecesseur, boolean visite) {
-		this.cout=cout;
-		this.courant=actu;
-		this.pere=predecesseur;
-		this.marque=visite;
+		this.cout = cout;
+		this.courant = actu;
+		this.pere = predecesseur;
+		this.marque = visite;
 	}
 
 	//Getters
@@ -85,8 +85,8 @@ public class Label implements Comparable<Label> {
 	@Override
 	public String toString() {
 	    if (pere==null){
-            return "Noeud actu : "+this.getCourant().getId()+" Noeud predec "+this.getPere()+" - Cout "+this.cout;
-        }else {
+            return "Noeud actu : " + this.getCourant().getId() + " Noeud predec " + this.getPere() + " - Cout "+this.cout;
+        } else {
             return "Noeud actu : " + this.getCourant().getId() + " Noeud predec " + this.getPere().getId() + " - Cout " + this.cout;
         }
 	}

@@ -56,17 +56,17 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         while((!filePriorite.isEmpty()) && (!destReached)){
         	//On trouve le prochain noeud avec le cout le plus faible à l'aide de la file de priorite 
         	//et on le retire
-        	Label myLab = filePriorite.deleteMin();
+        	Label monLabel = filePriorite.deleteMin();
         	
-        	if (myLab.compareTo(labelNodes.get(destination))<0){
+        	if (monLabel.compareTo(labelNodes.get(destination))<0){
         		//On vérifie pour chq arc a partir du noeud...
         		//??????????????? -> diff de eva mais compile???????
-        		for (Arc myArc : myLab.getCourant().getSuccessors()) {
+        		for (Arc monArc : monLabel.getCourant().getSuccessors()) {
         			//... sa destination
-        			Node Arrivee = myArc.getDestination();
+        			Node Arrivee = monArc.getDestination();
         			if (labelNodes.get(Arrivee) == null) {
         				//Si le noeud n'est pas dans la hashmap, on la met à jour
-        				labelNodes.put(Arrivee, newLabel(myLab.getCost()+myArc.getLength(), Arrivee, myLab.getCourant(), false));
+        				labelNodes.put(Arrivee, newLabel(monLabel.getCost()+monArc.getLength(), Arrivee, monLabel.getCourant(), false));
         				notifyNodeReached(Arrivee);
         				filePriorite.insert(labelNodes.get(Arrivee));
         				
@@ -78,12 +78,12 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         					notifyNodeReached(destination);
         					filePriorite.insert(labelNodes.get(destination));
         				}
-        				double cout = labelNodes.get(myLab.getCourant()).getCost() + myArc.getLength();
+        				double cout = labelNodes.get(monLabel.getCourant()).getCost() + monArc.getLength();
         				
         				if (labelNodes.get(Arrivee).getCost() > cout) {
         					//maj du label de la destination de l'arc
         					labelNodes.get(Arrivee).setCost(cout);
-        					labelNodes.get(Arrivee).setPere(myLab.getCourant());
+        					labelNodes.get(Arrivee).setPere(monLabel.getCourant());
         					//maj du label (cout + pere) dans la file de prio
         					filePriorite.remove(labelNodes.get(Arrivee));
         					filePriorite.insert(labelNodes.get(Arrivee));
@@ -92,16 +92,16 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		}
         		
         		//Si prochain noeud = arrivee
-        		if (myLab.getCourant().equals(destination)) {
-        			notifyDestinationReached(myLab.getCourant());
+        		if (monLabel.getCourant().equals(destination)) {
+        			notifyDestinationReached(monLabel.getCourant());
         			destReached=true;
         		}
         	}
         	
         	//On marque le noeud
-        	notifyNodeMarked(myLab.getCourant());
+        	notifyNodeMarked(monLabel.getCourant());
         	//Sommet visite
-        	labelNodes.get(myLab.getCourant()).setVisite(Boolean.TRUE);
+        	labelNodes.get(monLabel.getCourant()).setVisite(Boolean.TRUE);
         }
         
         AbstractSolution.Status status;
