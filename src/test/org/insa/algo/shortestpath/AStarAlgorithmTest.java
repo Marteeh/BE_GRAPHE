@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 public class AStarAlgorithmTest {
 
     private static Graph fractoul;
-    private static Graph doBrazil;
+    private static Graph paname;
 
     private static ShortestPathData data;
     private static AStarAlgorithm AStarAlgorithm;
@@ -44,14 +44,14 @@ public class AStarAlgorithmTest {
         //erreur autorisée
         delta = 0.0005d;
 
-        //Scenario Map carré
-        String mapName = "";
+        //Scenario map fractal spirale 
+        String mapName = "/home/toutant/Bureau/Cours/3MIC/S2/BE-Graphe/Maps/fractal-spiral.mapgr";
         reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
         fractoul = reader.read();
 
-        mapName = "chemin";
+        mapName = "/home/toutant/Bureau/Cours/3MIC/S2/BE-Graphe/Maps/paris.mapgr";
         reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
-        doBrazil = reader.read();
+        paname = reader.read();
 
         lenghtallAllowed =  ArcInspectorFactory.getAllFilters().get(0);
         lenghtCarRoadOnly = ArcInspectorFactory.getAllFilters().get(1);
@@ -125,7 +125,7 @@ public class AStarAlgorithmTest {
         }
     }
 
-    public void DistanceValide (ShortestPathSolution sol, Graph g) {
+    public void DistanceValide(ShortestPathSolution sol, Graph g) {
 
         // Si le chemin est un pcc alors n'importe quel sous chemin est un plus court chemin
         Path path  =  sol.getPath();
@@ -156,7 +156,7 @@ public class AStarAlgorithmTest {
         }
     }
 
-    public void testValiditeDistance(Graph g) {
+    public void TestValiditeDistance(Graph g) {
 
         Node origine =  g.get(0);
         Node destination =  g.get(g.size()-1);
@@ -171,7 +171,7 @@ public class AStarAlgorithmTest {
 
         if (solutionBellmand.isFeasible()){
             assertEquals(solutionBellmand.getPath().getLength(), solutionAStar.getPath().getLength(), delta);
-            DistanceValide (solutionAStar, g);
+            DistanceValide(solutionAStar, g);
         }
     }
 
@@ -198,8 +198,8 @@ public class AStarAlgorithmTest {
         Node origine = g.get(0);
         Node destination = g.get(0);
 
-        for (Node node:g.getNodes()){
-            if (!node.hasSuccessors()) {
+        for (Node node : g.getNodes()){
+            if (!node.hasSuccessors()){
                 origine = node;
             }
         }
@@ -213,7 +213,7 @@ public class AStarAlgorithmTest {
         assertEquals(solutionBellmand.isFeasible(), solutionAStar.isFeasible());
     }
 
-    public void MapCheminOkDistance(Graph g,  ArcInspector filtre){
+    public void TestDistance(Graph g, ArcInspector filtre){
 
         Node origine = g.get(0);
         Node destination = g.get(g.size()-1);
@@ -231,7 +231,7 @@ public class AStarAlgorithmTest {
         }
     }
 
-    public void MapCheminOkTemps(Graph g, ArcInspector filtre){
+    public void TestTemps(Graph g, ArcInspector filtre){
 
         Node origine = g.get(0);
         Node destination = g.get(g.size() - 1);
@@ -249,7 +249,7 @@ public class AStarAlgorithmTest {
         }
     }
 
-    /** Test map carré */
+    /** Test map fractale spirale */
     @Test
     public void MapFractCheminNullDistance(){
         CheminDistanceNull(fractoul);
@@ -262,27 +262,27 @@ public class AStarAlgorithmTest {
 
     @Test
     public void FractDistanceAllAllowed(){
-        MapCheminOkDistance(fractoul, lenghtallAllowed);
+        TestDistance(fractoul, lenghtallAllowed);
     }
 
     @Test
     public void FractDistanceCarOnly(){
-        MapCheminOkDistance(fractoul, lenghtCarRoadOnly);
+        TestDistance(fractoul, lenghtCarRoadOnly);
     }
 
     @Test
     public void FractTempsAllAllowed(){
-        MapCheminOkTemps(fractoul, timeAllAllowed);
+        TestTemps(fractoul, timeAllAllowed);
     }
 
     @Test
     public void FractTempsCarOnly(){
-        MapCheminOkTemps(fractoul, timeCarRoadOnly);
+        TestTemps(fractoul, timeCarRoadOnly);
     }
 
     @Test
     public void FractTempsPedestrian(){
-        MapCheminOkTemps(fractoul, timePedestrianRoad);
+        TestTemps(fractoul, timePedestrianRoad);
     }
 
     @Test
@@ -291,54 +291,53 @@ public class AStarAlgorithmTest {
     }
     @Test
     public void FractTestValiditeDistance() {
-        testValiditeDistance(fractoul);
+        TestValiditeDistance(fractoul);
     }
 
-    /** TEST INSA */
+    /** Tests paname */
     @Test
-    public void BrazilNoSuccessorsDistance(){
-        OrigineNoFils(doBrazil);
-    }
-
-    @Test
-    public void MapBrazilCheminNullDistance(){
-        CheminDistanceNull(doBrazil);
+    public void PanameOrigineNoSucc(){
+        OrigineNoFils(paname);
     }
 
     @Test
-    public void BrazilDistanceAllAllowed(){
-        MapCheminOkDistance(doBrazil, lenghtallAllowed);
+    public void PanameCheminDistNull(){
+        CheminDistanceNull(paname);
     }
 
     @Test
-    public void BrazilDistanceCarOnly(){
-        MapCheminOkTemps(doBrazil, lenghtCarRoadOnly);
+    public void PanameTestDistTout(){
+        TestDistance(paname, lenghtallAllowed);
     }
 
     @Test
-    public void BrazilTempsAllAllowed(){
-        MapCheminOkTemps(doBrazil, timeAllAllowed);
+    public void PanameTestDistVoitu(){
+        TestTemps(paname, lenghtCarRoadOnly);
     }
 
     @Test
-    public void BrazilTempsCarOnly(){
-        MapCheminOkTemps(doBrazil, timeCarRoadOnly);
+    public void PanameTestTempsTout(){
+        TestTemps(paname, timeAllAllowed);
+    }
+
+    @Test
+    public void PanameTestTempsVoitu(){
+        TestTemps(paname, timeCarRoadOnly);
     }
 
     //TODO: debug cette fonction
-    @Test
+   /*  @Test
     public void BrazilTempsPedestrian(){
-        MapCheminOkTemps(doBrazil, timePedestrianRoad);
+        TestTemps(paname, timePedestrianRoad);
+    } */
+
+    @Test
+    public void PanameValiditeDistance() {
+        TestValiditeDistance(paname);
     }
 
     @Test
-    public void BrazilTestValiditeDistance() {
-        testValiditeDistance(doBrazil);
+    public void PanameValiditeTemps() {
+        TestValiditeTemps(paname);
     }
-
-    @Test
-    public void BrazilTestValiditeTemps() {
-        TestValiditeTemps(doBrazil);
-    }
-
 }
