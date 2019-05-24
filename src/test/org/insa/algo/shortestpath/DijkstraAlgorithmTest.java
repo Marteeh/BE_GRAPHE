@@ -112,8 +112,8 @@ public class DijkstraAlgorithmTest {
     @Test
     public void PccTestSimple(){
 
-        for (int j = 0; j < noeuds.length; j++) {
-            for (int i = 0; i < noeuds.length; i++) {
+        for (int j = 0; j < noeuds.length; j++){
+            for (int i = 0; i < noeuds.length; i++){
 
                 if (i != j) {
 
@@ -132,7 +132,7 @@ public class DijkstraAlgorithmTest {
                     }
 
                 } else {
-                    tab[i][j]=0.0f;
+                    tab[i][j] = 0.0f;
                 }
             }
         }
