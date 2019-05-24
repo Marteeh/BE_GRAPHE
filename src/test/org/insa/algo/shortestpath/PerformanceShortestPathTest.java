@@ -42,7 +42,7 @@ public class PerformanceShortestPathTest {
 
         separateur = ";";
         // Init la carte
-        String mapName="chemin map";
+        String mapName="/home/toutant/Bureau/Cours/3MIC/S2/BE-Graphe/Maps/prout.mapgr";
 
         GraphReader reader=new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
         carte=reader.read();

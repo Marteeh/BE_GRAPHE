@@ -60,8 +60,8 @@ public class AStarAlgorithmTest {
         timePedestrianRoad = ArcInspectorFactory.getAllFilters().get(4);
     }
 
-    //fonction utilse pour ValiditeTemps et ValiditeDistance
-    public Node chooseADest(List<Arc> listarcs, List<Arc> cheminInterne, Node destination, int size) {
+    //fonction utilse pour TempsValide et DistanceValide
+    public Node ChoisirSousChemin(List<Arc> listarcs, List<Arc> cheminInterne, Node destination, int size) {
 
         int i = 0;
 
@@ -75,7 +75,7 @@ public class AStarAlgorithmTest {
         return destination;
     }
 
-    public void ValiditeTemps(ShortestPathSolution sol, Graph g) {
+    public void TempsValide(ShortestPathSolution sol, Graph g) {
 
         // Si le chemin est un pcc alors n'importe quel sous chemin est un plus court chemin
         Path path = sol.getPath();
@@ -88,7 +88,7 @@ public class AStarAlgorithmTest {
         int size = listarcs.size();
 
         // On prend une destination au milieu du path
-        destination = chooseADest(listarcs, CheminInterne, destination, size);
+        destination = ChoisirSousChemin(listarcs, CheminInterne, destination, size);
 
         data = new ShortestPathData(g, origine, destination, lenghtallAllowed);
         AStarAlgorithm  = new AStarAlgorithm(data);
@@ -106,7 +106,7 @@ public class AStarAlgorithmTest {
         }
     }
 
-    public void testValiditeTemps(Graph g) {
+    public void TestValiditeTemps(Graph g) {
           
         Node origine = g.get(0);
         Node destination = g.get(g.size() - 1);
@@ -121,11 +121,11 @@ public class AStarAlgorithmTest {
 
         if (solutionBellmand.isFeasible()){
             assertEquals(solutionBellmand.getPath().getMinimumTravelTime(), solutionAStar.getPath().getMinimumTravelTime(), delta);
-            ValiditeTemps(solutionAStar, g);
+            TempsValide(solutionAStar, g);
         }
     }
 
-    public void ValiditeDistance (ShortestPathSolution sol, Graph g) {
+    public void DistanceValide (ShortestPathSolution sol, Graph g) {
 
         // Si le chemin est un pcc alors n'importe quel sous chemin est un plus court chemin
         Path path  =  sol.getPath();
@@ -138,7 +138,7 @@ public class AStarAlgorithmTest {
         int size = listarcs.size();
 
         // On prend une destination au milieu du path
-        destination = chooseADest(listarcs, CheminInterne, destination, size);
+        destination = ChoisirSousChemin(listarcs, CheminInterne, destination, size);
 
         data = new ShortestPathData(g, origine, destination,  lenghtallAllowed);
         AStarAlgorithm = new AStarAlgorithm(data);
@@ -171,11 +171,11 @@ public class AStarAlgorithmTest {
 
         if (solutionBellmand.isFeasible()){
             assertEquals(solutionBellmand.getPath().getLength(), solutionAStar.getPath().getLength(), delta);
-            ValiditeDistance (solutionAStar, g);
+            DistanceValide (solutionAStar, g);
         }
     }
 
-    public void MapCheminNullDistance(Graph g) {
+    public void CheminDistanceNull(Graph g) {
   
         Node origine = g.get(0);
         Node destination = g.get(0);
@@ -193,7 +193,7 @@ public class AStarAlgorithmTest {
         }
     }
 
-    public void MapCheminOriginNoSuccessorsDistance(Graph g){
+    public void OrigineNoFils(Graph g){
 
         Node origine = g.get(0);
         Node destination = g.get(0);
@@ -252,12 +252,12 @@ public class AStarAlgorithmTest {
     /** Test map carré */
     @Test
     public void MapFractCheminNullDistance(){
-        MapCheminNullDistance(fractoul);
+        CheminDistanceNull(fractoul);
     }
 
     @Test
     public void FractNoSuccessorsDistance(){
-        MapCheminOriginNoSuccessorsDistance(fractoul);
+        OrigineNoFils(fractoul);
     }
 
     @Test
@@ -287,7 +287,7 @@ public class AStarAlgorithmTest {
 
     @Test
     public void FractTestValiditeTemps() {
-        testValiditeTemps(fractoul);
+        TestValiditeTemps(fractoul);
     }
     @Test
     public void FractTestValiditeDistance() {
@@ -297,12 +297,12 @@ public class AStarAlgorithmTest {
     /** TEST INSA */
     @Test
     public void BrazilNoSuccessorsDistance(){
-        MapCheminOriginNoSuccessorsDistance(doBrazil);
+        OrigineNoFils(doBrazil);
     }
 
     @Test
     public void MapBrazilCheminNullDistance(){
-        MapCheminNullDistance(doBrazil);
+        CheminDistanceNull(doBrazil);
     }
 
     @Test
@@ -338,7 +338,7 @@ public class AStarAlgorithmTest {
 
     @Test
     public void BrazilTestValiditeTemps() {
-        testValiditeTemps(doBrazil);
+        TestValiditeTemps(doBrazil);
     }
 
 }

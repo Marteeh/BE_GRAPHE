@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 public class DijkstraAlgorithmTest {
 
     private static Graph fractoul;
-    private static Graph doBrazil;
+    private static Graph paname;
     //Le graph
     private static Graph graph;
 
@@ -92,14 +92,14 @@ public class DijkstraAlgorithmTest {
         delta = 0.0005d;
 
         //Scenario map fractal spirale
-        String mapName = "/home/toutant/Bureau/Cours/3A/S2/Be-graphe";
+        String mapName = "/home/toutant/Bureau/Cours/3MIC/S2/BE-Graphe/Maps/fractal-spiral.mapgr";
         reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
         fractoul = reader.read();
         
-        //Scenario map bresil
-        mapName = "[chemin map doBrazil]";
+        //Scenario map paris
+        mapName = "/home/toutant/Bureau/Cours/3MIC/S2/BE-Graphe/Maps/paris.mapgr";
         reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
-        doBrazil = reader.read();
+        paname = reader.read();
 
         lengthAllAllowed = ArcInspectorFactory.getAllFilters().get(0);
         lengthCarRoadOnly = ArcInspectorFactory.getAllFilters().get(1);
@@ -110,7 +110,7 @@ public class DijkstraAlgorithmTest {
 
     //TEST Simple Exemple
     @Test
-    public void ShortestPathTestGrapheTest(){
+    public void PccTestSimple(){
 
         for (int j = 0; j < noeuds.length; j++) {
             for (int i = 0; i < noeuds.length; i++) {
@@ -139,7 +139,7 @@ public class DijkstraAlgorithmTest {
     }
 
     //Différentes fonctions de test
-    public void MapCheminNullDistance(Graph g) {
+    public void CheminDistanceNull(Graph g) {
 
         Node origine = g.get(0);
         Node destination = g.get(0);
@@ -159,7 +159,7 @@ public class DijkstraAlgorithmTest {
     }
 
 
-    public void MapCheminOriginNoSuccessorsDistance(Graph g){
+    public void OrigineNoFils(Graph g){
 
         Node origine = g.get(0);
         // On recherche un noeud sans successeur
@@ -182,7 +182,7 @@ public class DijkstraAlgorithmTest {
         assertEquals(solutionBellmand.isFeasible(), solutionDijkstra.isFeasible());
     }
 
-    public void MapCheminOkDistance(Graph g,  ArcInspector filtre){
+    public void TestDistance(Graph g,  ArcInspector filtre){
 
         Node origine = g.get(0);
         Node destination = g.get(g.size()-1);
@@ -201,7 +201,7 @@ public class DijkstraAlgorithmTest {
         }
     }
 
-    public void MapCheminOkTemps(Graph g, ArcInspector filtre){
+    public void TestTemps(Graph g, ArcInspector filtre){
 
         Node origine = g.get(0);
         Node destination = g.get(g.size() - 1);
@@ -221,20 +221,20 @@ public class DijkstraAlgorithmTest {
     }
     
     // Permet de choisir un node au milieu du Path donné en argument
-    public Node chooseADest(List<Arc> lArcs, List<Arc> cheminInterne, Node destination, int size, int i) {
+    public Node ChoisirSousChemin(List<Arc> lArcs, List<Arc> cheminInterne, Node destination, int size, int i) {
 
         for (Arc arc : lArcs) {
-            if (i<size/2) {
-            destination = arc.getDestination();
-            cheminInterne.add(arc);
-            i++;
+            if (i < size/2) {
+                destination = arc.getDestination();
+                cheminInterne.add(arc);
+                i++;
             }
         }
         return destination;
     }
 
     // Vérifie si le plus court chemin entre deux points du ShortestPathSolution fourni est bien le plus court chemin en distance
-    public void ValiditeDistance (ShortestPathSolution soluce, Graph g) {
+    public void DistanceValide(ShortestPathSolution soluce, Graph g) {
 
     	// Si le chemin est un pcc alors n'importe quel sous chemin est un plus court chemin
     	Path path =  soluce.getPath();
@@ -248,7 +248,7 @@ public class DijkstraAlgorithmTest {
 
     	// On prend une destination au milieu du path
     	int i = 0;
-        destination = chooseADest(lArcs, CheminInterne, destination, size, i);
+        destination = ChoisirSousChemin(lArcs, CheminInterne, destination, size, i);
 
         // On trouve un pcc entre deux points du path
         data = new ShortestPathData(g, origine, destination, ArcInspectorFactory.getAllFilters().get(0));
@@ -270,7 +270,7 @@ public class DijkstraAlgorithmTest {
         }
     }
     
-    public void testValiditeDistance(Graph g) {
+    public void TestValiditeDistance(Graph g) {
 
         Node origine = g.get(0);
         Node destination = g.get(g.size() - 1);
@@ -287,12 +287,12 @@ public class DijkstraAlgorithmTest {
         if (solutionBellmand.isFeasible()){
             assertEquals(solutionBellmand.getPath().getLength(), solutionDijkstra.getPath().getLength(), delta);
             // Lancement du test de plus court chemin
-            ValiditeDistance (solutionDijkstra, g);
+            DistanceValide(solutionDijkstra, g);
         }
     }
     
     // Vérifie si le plus court chemin entre deux points du ShortestPathSolution fourni est bien un plus court chemin en temps
-    public void ValiditeTemps (ShortestPathSolution soluce, Graph map) {
+    public void ValiditeTemps(ShortestPathSolution soluce, Graph map) {
 
         // Si le chemin = plus court chemin (pcc)
         // n'importe quel sous chemin est un plus court chemin
@@ -306,7 +306,7 @@ public class DijkstraAlgorithmTest {
 
     	// Destination au milieu du path
     	int i = 0;
-        destination = chooseADest(lArcs, CheminInterne, destination, size, i);
+        destination = ChoisirSousChemin(lArcs, CheminInterne, destination, size, i);
         
         // On trouve un pcc entre deux points du path
         data = new ShortestPathData(map, origine, destination, ArcInspectorFactory.getAllFilters().get(0));
@@ -327,7 +327,7 @@ public class DijkstraAlgorithmTest {
         }
     }
 
-    public void testValiditeTemps(Graph g) {
+    public void TestValiditeTemps(Graph g) {
 
         Node origine = g.get(0);
         Node destination = g.get(g.size()-1);
@@ -350,46 +350,46 @@ public class DijkstraAlgorithmTest {
         // Tests map carré 
         @Test
         public void MapCarreCheminNullDistance(){
-            MapCheminNullDistance(fractoul);
+            CheminDistanceNull(fractoul);
         }
     
         @Test
         public void CarreNoSuccessorsDistance(){
-            MapCheminOriginNoSuccessorsDistance(fractoul);
+            OrigineNoFils(fractoul);
         }
     
         @Test
         public void CarreDistanceAllAllowed(){
-            MapCheminOkDistance(fractoul,lengthAllAllowed);
+            TestDistance(fractoul,lengthAllAllowed);
         }
     
         @Test
         public void CarreDistanceCarOnly(){
-            MapCheminOkDistance(fractoul,lengthCarRoadOnly);
+            TestDistance(fractoul,lengthCarRoadOnly);
         }
     
         @Test
         public void CarreTempsAllAllowed(){
-            MapCheminOkTemps(fractoul,timeAllAllowed);
+            TestTemps(fractoul,timeAllAllowed);
         }
     
         @Test
         public void carreTempsCarOnly(){
-            MapCheminOkTemps(fractoul,timeCarRoadOnly);
+            TestTemps(fractoul,timeCarRoadOnly);
         }
     
         @Test
         public void CarreTempsPedestrian(){
-            MapCheminOkTemps(fractoul,timePedestrianRoad);
+            TestTemps(fractoul,timePedestrianRoad);
         }
     
         @Test
         public void CarreTestValiditeTemps() {
-            testValiditeTemps(fractoul);
+            TestValiditeTemps(fractoul);
         }
         @Test
         public void CarreTestValiditeDistance() {
-            testValiditeDistance(fractoul);
+            TestValiditeDistance(fractoul);
         }
 
         // Fin tests map carré 
@@ -397,48 +397,48 @@ public class DijkstraAlgorithmTest {
         
         // Tests map insa
         @Test
-        public void brazilNoSuccessorsDistance(){
-            MapCheminOriginNoSuccessorsDistance(doBrazil);
+        public void parisNoFilsDist(){
+            OrigineNoFils(paname);
         }
     
         @Test
         public void MapBrazilCheminNullDistance(){
-            MapCheminNullDistance(doBrazil);
+            CheminDistanceNull(paname);
         }
     
         @Test
         public void brazilDistanceAllAllowed(){
-            MapCheminOkDistance(doBrazil, lengthAllAllowed);
+            TestDistance(paname, lengthAllAllowed);
         }
     
         @Test
         public void brazilDistanceCarOnly(){
-            MapCheminOkTemps(doBrazil, lengthCarRoadOnly);
+            TestTemps(paname, lengthCarRoadOnly);
         }
     
         @Test
         public void brazilTempsAllAllowed(){
-            MapCheminOkTemps(doBrazil, timeAllAllowed);
+            TestTemps(paname, timeAllAllowed);
         }
     
         @Test
         public void brazilTempsCarOnly(){
-            MapCheminOkTemps(doBrazil, timeCarRoadOnly);
+            TestTemps(paname, timeCarRoadOnly);
         }
     
         //TODO: debug cette fonction
         @Test
         public void brazilTempsPedestrian(){
-            MapCheminOkTemps(doBrazil, timePedestrianRoad);
+            TestTemps(paname, timePedestrianRoad);
         }
     
         @Test
         public void brazilTestValiditeDistance() {
-            testValiditeDistance(doBrazil);
+            TestValiditeDistance(paname);
         }
     
         @Test
         public void brazilTestValiditeTemps() {
-            testValiditeTemps(doBrazil);
+            TestValiditeTemps(paname);
         }
 }
