@@ -38,11 +38,11 @@ public class PerformanceShortestPathTest {
 
         nombreTest = 10;
         borneInf = 0;
-        borneSup = 5;
+        borneSup = 100;
 
         separateur = ";";
         // Init la carte
-        String mapName="/home/toutant/Bureau/Cours/3MIC/S2/BE-Graphe/Maps/prout.mapgr";
+        String mapName="/home/toutant/Bureau/Cours/3MIC/S2/BE-Graphe/Maps/british-isles.mapgr";
 
         GraphReader reader=new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
         carte=reader.read();
@@ -63,7 +63,7 @@ public class PerformanceShortestPathTest {
 
         //pour mesure du temps d'execution
         long debut;
-        long end;
+        long fin;
 
         ecriture.append("Dijkstra" + separateur + origine.getId() + separateur + dest.getId() + separateur + distance_vol + separateur);
 
@@ -110,7 +110,7 @@ public class PerformanceShortestPathTest {
         ShortestPathSolution solution=AStarAlgo.doRun();
         fin = System.nanoTime();
 
-        double time = ((double)(end - debut) / 1000000.0);
+        double time = ((double)(fin - debut) / 1000000.0);
 
         if ((solution.isFeasible()) && (solution.getPath().getLength() < (float)borneSup  *1000.0) && (solution.getPath().getLength() > (float)borneInf * 1000.0)){
 
@@ -132,14 +132,17 @@ public class PerformanceShortestPathTest {
         int i=0;
 
         while ( i < nombreTest ){
-            System.out.println("Chemin trouvé : " + (i+1) );
-            System.out.println("Avancement :" + (((double)i) / (((double)nombreTest) * 100.0)) + "%");
+            
 
             //origine et destination pris au hasard sur la carte
             origine = carte.get(rand.nextInt(carte.size()-1));
             destination = carte.get(rand.nextInt(carte.size()-1));
 
             if (calculDijkstra(origine,destination)){
+            	
+            	System.out.println("Chemin trouvé : " + (i+1) );
+                System.out.println("Avancement :" + (((double)i) / (((double)nombreTest)) * 100.0) + "%");
+                
                 calculAStar(origine,destination);
                 i+=1;
             }

@@ -97,7 +97,7 @@ public class DijkstraAlgorithmTest {
         fractoul = reader.read();
         
         //Scenario map paris
-        mapName = "/home/toutant/Bureau/Cours/3MIC/S2/BE-Graphe/Maps/paris.mapgr";
+        mapName = "/home/toutant/Bureau/Cours/3MIC/S2/BE-Graphe/Maps/guyane.mapgr";
         reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
         paname = reader.read();
 

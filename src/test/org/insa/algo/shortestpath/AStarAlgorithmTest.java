@@ -49,7 +49,7 @@ public class AStarAlgorithmTest {
         reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
         fractoul = reader.read();
 
-        mapName = "/home/toutant/Bureau/Cours/3MIC/S2/BE-Graphe/Maps/paris.mapgr";
+        mapName = "/home/toutant/Bureau/Cours/3MIC/S2/BE-Graphe/Maps/guyane.mapgr";
         reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
         paname = reader.read();
 
@@ -251,7 +251,7 @@ public class AStarAlgorithmTest {
 
     /** Test map fractale spirale */
     @Test
-    public void MapFractCheminNullDistance(){
+    public void FractCheminNullDistance(){
         CheminDistanceNull(fractoul);
     }
 
