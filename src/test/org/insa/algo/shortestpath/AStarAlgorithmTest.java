@@ -327,7 +327,7 @@ public class AStarAlgorithmTest {
 
     //TODO: debug cette fonction
    /*  @Test
-    public void BrazilTempsPedestrian(){
+    public void PanameTempsPedestrian(){
         TestTemps(paname, timePedestrianRoad);
     } */
 

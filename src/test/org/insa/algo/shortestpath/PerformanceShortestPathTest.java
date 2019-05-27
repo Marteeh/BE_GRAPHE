@@ -34,7 +34,7 @@ public class PerformanceShortestPathTest {
     private static PrintWriter writer;
 
     @BeforeClass
-    public static void initAll() throws Exception {
+    public static void AllInit() throws Exception {
 
         nombreTest = 10;
         borneInf = 0;
@@ -72,9 +72,9 @@ public class PerformanceShortestPathTest {
 
         debut = System.nanoTime();
         ShortestPathSolution solution = dijkstraAlgo.doRun();
-        end = System.nanoTime();
+        fin = System.nanoTime();
 
-        double time=((double)(end - debut)/1000000.0);
+        double time=((double)(fin - debut)/1000000.0);
 
         if ((solution.isFeasible()) && (solution.getPath().getLength() < (float) borneSup*1000.0) && (solution.getPath().getLength() > (float) borneInf*1000.0)){
             
@@ -91,15 +91,15 @@ public class PerformanceShortestPathTest {
     }
 
     //calcul Astar possible ?
-    public boolean calculAStar(Node origine,Node dest){
+    public boolean calculAStar(Node origine, Node dest){
 
         Boolean retour = false;
         StringBuilder ecriture = new StringBuilder();
-        double distance_vol = Point.distance(origine.getPoint(),dest.getPoint());
+        double distance_vol = Point.distance(origine.getPoint(), dest.getPoint());
 
         //mesure temps
         long debut;
-        long end;
+        long fin;
 
         ecriture.append("AStar" + separateur + origine.getId() + separateur + dest.getId() + separateur + distance_vol + separateur);
 
@@ -108,7 +108,7 @@ public class PerformanceShortestPathTest {
 
         debut = System.nanoTime();
         ShortestPathSolution solution=AStarAlgo.doRun();
-        end = System.nanoTime();
+        fin = System.nanoTime();
 
         double time = ((double)(end - debut) / 1000000.0);
 
@@ -127,7 +127,7 @@ public class PerformanceShortestPathTest {
     }
 
     @Test
-    public void generateTest(){
+    public void FaireTest(){
 
         int i=0;
 
