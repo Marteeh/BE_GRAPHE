@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 public class AStarAlgorithmTest {
 
     private static Graph fractoul;
-    private static Graph paname;
+    private static Graph guyane;
 
     private static ShortestPathData data;
     private static AStarAlgorithm AStarAlgorithm;
@@ -39,25 +39,28 @@ public class AStarAlgorithmTest {
     @BeforeClass
     public static void initAll() throws Exception{
 
-        GraphReader reader;
-
+        
         //erreur autorisée
         delta = 0.0005d;
+
+        GraphReader reader;
 
         //Scenario map fractal spirale 
         String mapName = "/home/toutant/Bureau/Cours/3MIC/S2/BE-Graphe/Maps/fractal-spiral.mapgr";
         reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
         fractoul = reader.read();
 
+        //Scenario map guyane
         mapName = "/home/toutant/Bureau/Cours/3MIC/S2/BE-Graphe/Maps/guyane.mapgr";
         reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
-        paname = reader.read();
+        guyane = reader.read();
 
         lenghtallAllowed =  ArcInspectorFactory.getAllFilters().get(0);
         lenghtCarRoadOnly = ArcInspectorFactory.getAllFilters().get(1);
         timeAllAllowed = ArcInspectorFactory.getAllFilters().get(2);
         timeCarRoadOnly = ArcInspectorFactory.getAllFilters().get(3);
         timePedestrianRoad = ArcInspectorFactory.getAllFilters().get(4);
+        
     }
 
     //fonction utilse pour TempsValide et DistanceValide
@@ -294,50 +297,50 @@ public class AStarAlgorithmTest {
         TestValiditeDistance(fractoul);
     }
 
-    /** Tests paname */
+    /** Tests guyane */
     @Test
     public void PanameOrigineNoSucc(){
-        OrigineNoFils(paname);
+        OrigineNoFils(guyane);
     }
 
     @Test
     public void PanameCheminDistNull(){
-        CheminDistanceNull(paname);
+        CheminDistanceNull(guyane);
     }
 
     @Test
     public void PanameTestDistTout(){
-        TestDistance(paname, lenghtallAllowed);
+        TestDistance(guyane, lenghtallAllowed);
     }
 
     @Test
     public void PanameTestDistVoitu(){
-        TestTemps(paname, lenghtCarRoadOnly);
+        TestTemps(guyane, lenghtCarRoadOnly);
     }
 
     @Test
     public void PanameTestTempsTout(){
-        TestTemps(paname, timeAllAllowed);
+        TestTemps(guyane, timeAllAllowed);
     }
 
     @Test
     public void PanameTestTempsVoitu(){
-        TestTemps(paname, timeCarRoadOnly);
+        TestTemps(guyane, timeCarRoadOnly);
     }
 
     //TODO: debug cette fonction
    /*  @Test
     public void PanameTempsPedestrian(){
-        TestTemps(paname, timePedestrianRoad);
+        TestTemps(guyane, timePedestrianRoad);
     } */
 
     @Test
     public void PanameValiditeDistance() {
-        TestValiditeDistance(paname);
+        TestValiditeDistance(guyane);
     }
 
     @Test
     public void PanameValiditeTemps() {
-        TestValiditeTemps(paname);
+        TestValiditeTemps(guyane);
     }
 }
