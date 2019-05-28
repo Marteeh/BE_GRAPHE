@@ -38,7 +38,7 @@ public class PerformanceShortestPathTest {
 
         nombreTest = 10;
         borneInf = 0;
-        borneSup = 100;
+        borneSup = 200;
 
         separateur = ";";
         // Init la carte
@@ -141,7 +141,7 @@ public class PerformanceShortestPathTest {
             if (calculDijkstra(origine,destination)){
             	
             	System.out.println("Chemin trouvé : " + (i+1) );
-                System.out.println("Avancement :" + (((double)i) / (((double)nombreTest)) * 100.0) + "%");
+                System.out.println("Avancement :" + (((double)i + 1) / (((double)nombreTest)) * 100.0) + "%");
                 
                 calculAStar(origine,destination);
                 i+=1;
