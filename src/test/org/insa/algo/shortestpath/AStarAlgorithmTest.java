@@ -143,7 +143,7 @@ public class AStarAlgorithmTest {
         // On prend une destination au milieu du path
         destination = ChoisirSousChemin(listarcs, CheminInterne, destination, size);
 
-        data = new ShortestPathData(g, origine, destination,  lenghtallAllowed);
+        data = new ShortestPathData(g, origine, destination, lenghtallAllowed);
         AStarAlgorithm = new AStarAlgorithm(data);
         solutionAStar = AStarAlgorithm.doRun();
 
@@ -164,7 +164,7 @@ public class AStarAlgorithmTest {
         Node origine =  g.get(0);
         Node destination =  g.get(g.size()-1);
 
-        data = new ShortestPathData(g, origine, destination,  lenghtallAllowed);
+        data = new ShortestPathData(g, origine, destination, lenghtallAllowed);
         AStarAlgorithm  = new AStarAlgorithm(data);
         bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
         solutionBellmand = bellmanFordAlgorithm.doRun();
@@ -183,7 +183,7 @@ public class AStarAlgorithmTest {
         Node origine = g.get(0);
         Node destination = g.get(0);
         
-        data = new ShortestPathData(g, origine, destination,  lenghtallAllowed);
+        data = new ShortestPathData(g, origine, destination, lenghtallAllowed);
         AStarAlgorithm  = new AStarAlgorithm(data);
         bellmanFordAlgorithm = new BellmanFordAlgorithm(data);
         solutionBellmand = bellmanFordAlgorithm.doRun();
@@ -299,48 +299,48 @@ public class AStarAlgorithmTest {
 
     /** Tests guyane */
     @Test
-    public void PanameOrigineNoSucc(){
+    public void GuyOrigineNoSucc(){
         OrigineNoFils(guyane);
     }
 
     @Test
-    public void PanameCheminDistNull(){
+    public void GuyCheminDistNull(){
         CheminDistanceNull(guyane);
     }
 
     @Test
-    public void PanameTestDistTout(){
+    public void GuyTestDistTout(){
         TestDistance(guyane, lenghtallAllowed);
     }
 
     @Test
-    public void PanameTestDistVoitu(){
+    public void GuyTestDistVoitu(){
         TestTemps(guyane, lenghtCarRoadOnly);
     }
 
     @Test
-    public void PanameTestTempsTout(){
+    public void GuyTestTempsTout(){
         TestTemps(guyane, timeAllAllowed);
     }
 
     @Test
-    public void PanameTestTempsVoitu(){
+    public void GuyTestTempsVoitu(){
         TestTemps(guyane, timeCarRoadOnly);
     }
 
     //TODO: debug cette fonction
    /*  @Test
-    public void PanameTempsPedestrian(){
+    public void GuyTempsPedestrian(){
         TestTemps(guyane, timePedestrianRoad);
     } */
 
     @Test
-    public void PanameValiditeDistance() {
+    public void GuyValiditeDistance() {
         TestValiditeDistance(guyane);
     }
 
     @Test
-    public void PanameValiditeTemps() {
+    public void GuyValiditeTemps() {
         TestValiditeTemps(guyane);
     }
 }

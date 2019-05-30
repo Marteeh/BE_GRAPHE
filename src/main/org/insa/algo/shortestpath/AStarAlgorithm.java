@@ -17,20 +17,21 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         this.mode = data.getMode();
         this.vitesseMax = data.getMaximumSpeed();
 
-        if(vitesseMax == -1)
+        if (vitesseMax == -1)
             vitesseMax = 200;
     }
 
     @Override
-    protected Label newLabel(double cout,Node actu, Node predecesseur, boolean visite){
+    protected Label newLabel(double cout, Node actu, Node predecesseur, boolean visite){
 
-        double coutestim;
+        double coutEstim;
+
         if (mode == AbstractInputData.Mode.LENGTH){
-            coutestim = Point.distance(dest.getPoint(),actu.getPoint());
+            coutEstim = Point.distance(dest.getPoint(),actu.getPoint());
         } else {
-            coutestim = ((Point.distance(dest.getPoint(),actu.getPoint())*3600.0)/((double)(vitesseMax)*1000.0));
+            coutEstim = ((Point.distance(dest.getPoint(),actu.getPoint())*3600.0) / ((double)(vitesseMax)*1000.0));
         }
         
-        return new LabelStar(cout,actu,predecesseur,visite,coutestim);
+        return new LabelStar(cout, actu, predecesseur, visite, coutEstim);
     }
 }

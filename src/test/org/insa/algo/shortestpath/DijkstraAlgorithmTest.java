@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 public class DijkstraAlgorithmTest {
 
     private static Graph fractoul;
-    private static Graph paname;
+    private static Graph guyane;
     //Le graph
     private static Graph graph;
 
@@ -99,7 +99,7 @@ public class DijkstraAlgorithmTest {
         //Scenario map paris
         mapName = "/home/toutant/Bureau/Cours/3MIC/S2/BE-Graphe/Maps/guyane.mapgr";
         reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
-        paname = reader.read();
+        guyane = reader.read();
 
         lengthAllAllowed = ArcInspectorFactory.getAllFilters().get(0);
         lengthCarRoadOnly = ArcInspectorFactory.getAllFilters().get(1);
@@ -165,7 +165,7 @@ public class DijkstraAlgorithmTest {
         // On recherche un noeud sans successeur
         for (Node node : g.getNodes()){
             if (!node.hasSuccessors()) {
-                origine =  node;
+                origine = node;
             }
         }
         // Soit on a trouvé un noeud sans successeur
@@ -237,12 +237,12 @@ public class DijkstraAlgorithmTest {
     public void DistanceValide(ShortestPathSolution soluce, Graph g) {
 
     	// Si le chemin est un pcc alors n'importe quel sous chemin est un plus court chemin
-    	Path path =  soluce.getPath();
-    	List<Arc> lArcs =  soluce.getPath().getArcs();
+    	Path path = soluce.getPath();
+    	List<Arc> lArcs = soluce.getPath().getArcs();
     	List<Arc> CheminInterne = new LinkedList<Arc>();
 
-    	Node origine =  path.getOrigin();
-    	Node destination =  path.getDestination();
+    	Node origine = path.getOrigin();
+    	Node destination = path.getDestination();
 
     	int size = lArcs.size();
 
@@ -395,50 +395,50 @@ public class DijkstraAlgorithmTest {
     }
     // Fin tests map fractoul
     
-    // Tests map paname
+    // Tests map guyane
     @Test
-    public void PanameOrigineNoSucc(){
-        OrigineNoFils(paname);
+    public void GuyOrigineNoSucc(){
+        OrigineNoFils(guyane);
     }
 
     @Test
-    public void PanameCheminDistNull(){
-        CheminDistanceNull(paname);
+    public void GuyCheminDistNull(){
+        CheminDistanceNull(guyane);
     }
 
     @Test
-    public void PanameTestDistTout(){
-        TestDistance(paname, lengthAllAllowed);
+    public void GuyTestDistTout(){
+        TestDistance(guyane, lengthAllAllowed);
     }
 
     @Test
-    public void PanameTestDistVoitu(){
-        TestTemps(paname, lengthCarRoadOnly);
+    public void GuyTestDistVoitu(){
+        TestTemps(guyane, lengthCarRoadOnly);
     }
 
     @Test
-    public void PanameTestTempsTout(){
-        TestTemps(paname, timeAllAllowed);
+    public void GuyTestTempsTout(){
+        TestTemps(guyane, timeAllAllowed);
     }
 
     @Test
-    public void PanameTestTempsVoitu(){
-        TestTemps(paname, timeCarRoadOnly);
+    public void GuyTestTempsVoitu(){
+        TestTemps(guyane, timeCarRoadOnly);
     }
 
     //TODO: debug cette fonction
    /*  @Test
     public void brazilTempsPedestrian(){
-        TestTemps(paname, timePedestrianRoad);
+        TestTemps(guyane, timePedestrianRoad);
     } */
 
     @Test
-    public void PanameValiditeDistance(){
-        TestValiditeDistance(paname);
+    public void GuyValiditeDistance(){
+        TestValiditeDistance(guyane);
     }
 
     @Test
-    public void PanameValiditeTemps(){
-        TestValiditeTemps(paname);
+    public void GuyValiditeTemps(){
+        TestValiditeTemps(guyane);
     }
 }
